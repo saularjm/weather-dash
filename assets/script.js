@@ -23,3 +23,19 @@ function renderHistory() {
         $("#searchHistory").append(listEl);   
     }
 }
+
+// Function to build query URL
+function buildQueryURL() {
+
+    var cityName = $("#citySearch").val().trim();
+
+    var queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&units=imperial&appid=ada09817b302edc8ce6573f5d8d86b58";
+
+    return queryURL;
+}
+
+
+// Click handlers
+$("#searchButton").on("click". storeHistory());
+$("#searchButton").on("click". renderHistory());
+
