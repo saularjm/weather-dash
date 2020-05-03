@@ -18,10 +18,10 @@ function renderHistory() {
         for (var i=0; i< cityHistory.length; i++) {
 
             var city = cityHistory[i];
-            var listEl = $("<a class='list-group-item list-group-item-action'>");
+            var listEl = $("<button class='list-group-item list-group-item-action'>");
             listEl.text(city);
             // TODO: link search history items to their weather report and populate page
-            //listEl.attr("val", city);
+            listEl.attr("val", city);
 
             $("#searchHistory").append(listEl);   
         }
@@ -156,8 +156,11 @@ $("#searchButton").on("click", function(event) {
     $("#citySearch").val(""); 
 })
 
-// $("a").on("click", function(event) {
+// $(".list-group-item").on("click", function(event) {
 //     event.preventDefault();
+
+//     $("#weatherJumbo").empty();
+//     $("#fiveDay").empty();
 
 //     var HistoryCityName = $(this).val();
 //     console.log(HistoryCityName);
