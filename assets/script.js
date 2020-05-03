@@ -18,15 +18,15 @@ function renderHistory() {
         for (var i=0; i< cityHistory.length; i++) {
 
             var city = cityHistory[i];
-
             var listEl = $("<a class='list-group-item list-group-item-action'>");
-
             listEl.text(city);
+            // TODO: link search history items to their weather report and populate page
 
             $("#searchHistory").append(listEl);   
         }
     }
 }
+renderHistory();
 
 
 // Function to build query URL
