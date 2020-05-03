@@ -29,13 +29,36 @@ function buildQueryURL() {
 
     var cityName = $("#citySearch").val().trim();
 
-    var queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&units=imperial&appid=ada09817b302edc8ce6573f5d8d86b58";
+    var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&units=imperial&appid=ada09817b302edc8ce6573f5d8d86b58";
 
     return queryURL;
 }
 
+// Function to update page display with API data
+function updatePage(weatherData) {
+    console.log(weatherData);
+
+    var jumboHeader = $("<h3>");
+    var currentDay = moment().format("dddd, MMMM Do");
+    jumboHeader.text(weatherData.name + " - " + currentDay + " - " + weatherData.weather[0].icon);
+    $("#weatherJumbo").append(jumboHeader);
+}
+
 
 // Click handlers
-$("#searchButton").on("click". storeHistory());
-$("#searchButton").on("click". renderHistory());
+$("#searchButton").on("click", storeHistory());
+$("#searchButton").on("click", renderHistory());
+
+$("#searchButton").on("click", function(event) {
+    event.preventDefault();
+
+    $("#weatherJumbo").empty();
+
+    var queryURL = buildQueryURL();
+
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+      }).then(updatePage);
+})
 
