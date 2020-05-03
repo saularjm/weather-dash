@@ -34,9 +34,8 @@ function buildQueryURL() {
     return queryURL;
 }
 
-// Function to update page display with API data
+// Function to update page with API data
 function updatePage(weatherData) {
-    console.log(weatherData);
 
     // Create header for weather data
     var jumboHeader = $("<h3>");
@@ -45,7 +44,7 @@ function updatePage(weatherData) {
     var currentDay = moment().format("dddd, MMMM Do");
 
     // Get weather conditions icon
-    var iconCode = weatherData.weather[0].icon
+    var iconCode = weatherData.weather[0].icon;
     var iconURL = "http://openweathermap.org/img/w/" + iconCode + ".png";
     var icon = $("<img>");
     icon.attr("src", iconURL);
@@ -83,15 +82,62 @@ function updatePage(weatherData) {
         var uvDiv = $("<div>");
         uvDiv.html("UV Index: " + response.value);
         $("#weatherJumbo").append(uvDiv);
-      })    
-}
+      })  
+      
+    // Call forecast API, pull data, create HTML elements and append to fiveDay div
+    var fiveDayURL = "https://api.openweathermap.org/data/2.5/onecall?lat=" + weatherData.coord.lat + "&lon=" + weatherData.coord.lon + "&exclude=current,hourly&units=imperial&appid=ada09817b302edc8ce6573f5d8d86b58";  
 
+    $.ajax({
+        url: fiveDayURL,
+        method: "GET"
+      }).then(function(response) {
+          console.log(response);
+
+          // Loop through five days of weather data
+          for (var i=1;i<6;i++) {
+            // Create div to hold daily forecast  
+            var dayDiv = $("<div>");
+            dayDiv.css("display", "inline-block");
+            dayDiv.addClass("mx-3 pb-5");
+
+            // Get date and append to dayDiv
+            var date = moment().add(i, 'days');
+            date = date.format("dddd, MMMM Do");
+            var dateDiv = $("<div>").text(date);
+            dayDiv.append(dateDiv);
+            dayDiv.append($("<br>"));
+
+            // Get icon and append to dayDiv
+            var fiveDayIconCode = response.daily[i].weather[0].icon;
+            var fiveDayIconURL = "http://openweathermap.org/img/w/" + fiveDayIconCode + ".png";
+            var fiveDayIcon = $("<img>");
+            fiveDayIcon.attr("src", fiveDayIconURL);
+            dayDiv.append(fiveDayIcon);
+            dayDiv.append($("<br>"));
+
+            // Get temp and append to dayDiv
+            var fiveDayTempDiv = $("<div>");
+            fiveDayTempDiv.html("Temperature: " + response.daily[i].temp.max + " &#8457;");
+            dayDiv.append(fiveDayTempDiv);
+            dayDiv.append($("<br>"));
+
+            // Get humidity and append to dayDiv
+            var fiveDayHumidDiv = $("<div>");
+            fiveDayHumidDiv.html("Humidity: " + response.daily[i].humidity + "%");
+            dayDiv.append(fiveDayHumidDiv);
+
+            // Append dayDiv to 5day forecast area
+            $("#fiveDay").append(dayDiv);
+          }
+      })
+}
 
 // Click handlers
 $("#searchButton").on("click", function(event) {
     event.preventDefault();
 
     $("#weatherJumbo").empty();
+    $("#fiveDay").empty();
 
     var queryURL = buildQueryURL();
 
