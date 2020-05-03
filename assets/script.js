@@ -21,6 +21,7 @@ function renderHistory() {
             var listEl = $("<a class='list-group-item list-group-item-action'>");
             listEl.text(city);
             // TODO: link search history items to their weather report and populate page
+            //listEl.attr("val", city);
 
             $("#searchHistory").append(listEl);   
         }
@@ -96,7 +97,6 @@ function updatePage(weatherData) {
         url: fiveDayURL,
         method: "GET"
       }).then(function(response) {
-          console.log(response);
 
           // Loop through five days of weather data
           for (var i=1;i<6;i++) {
@@ -156,3 +156,15 @@ $("#searchButton").on("click", function(event) {
     $("#citySearch").val(""); 
 })
 
+// $("a").on("click", function(event) {
+//     event.preventDefault();
+
+//     var HistoryCityName = $(this).val();
+//     console.log(HistoryCityName);
+//     var Url = "https://api.openweathermap.org/data/2.5/weather?q=" + HistoryCityName + "&units=imperial&appid=ada09817b302edc8ce6573f5d8d86b58";
+
+//     $.ajax({
+//       url: Url,
+//       method: "GET"
+//     }).then(updatePage);
+// })
