@@ -88,9 +88,6 @@ function updatePage(weatherData) {
 
 
 // Click handlers
-$("#searchButton").on("click", storeHistory());
-$("#searchButton").on("click", renderHistory());
-
 $("#searchButton").on("click", function(event) {
     event.preventDefault();
 
@@ -102,5 +99,8 @@ $("#searchButton").on("click", function(event) {
         url: queryURL,
         method: "GET"
       }).then(updatePage);
+
+    storeHistory();
+    renderHistory();  
 })
 
