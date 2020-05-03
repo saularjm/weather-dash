@@ -40,7 +40,14 @@ function updatePage(weatherData) {
 
     var jumboHeader = $("<h3>");
     var currentDay = moment().format("dddd, MMMM Do");
-    jumboHeader.text(weatherData.name + " - " + currentDay + " - " + weatherData.weather[0].icon);
+
+    var iconCode = weatherData.weather[0].icon
+    var iconURL = "http://openweathermap.org/img/w/" + iconCode + ".png";
+    var icon = $("<img>");
+    icon.attr("src", iconURL);
+    
+    jumboHeader.text(weatherData.name + " - " + currentDay + " - ");
+    jumboHeader.append(icon);
     $("#weatherJumbo").append(jumboHeader);
 }
 
