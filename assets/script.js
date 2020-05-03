@@ -2,6 +2,7 @@ var cityHistory = [];
 
 // Function to store search history
 function storeHistory() {
+    cityHistory.push($("#citySearch").val().trim())
     localStorage.setItem("history", JSON.stringify(cityHistory));
 }
 
@@ -10,19 +11,23 @@ function renderHistory() {
 
     $("#searchHistory").empty();
 
-    for (var i=0; i< cityHistory.length; i++) {
+    var history = JSON.parse(localStorage.getItem("history"));
 
-        var city = cityHistory[i];
+    if (history !== null) {
 
-        var listEl = $("<a class='list-group-item list-group-item-action'>");
+        for (var i=0; i< cityHistory.length; i++) {
 
-        // TODO: set link to that city's weather data info page
-        //listEl.attr("href", )
-        listEl.text(city);
+            var city = cityHistory[i];
 
-        $("#searchHistory").append(listEl);   
+            var listEl = $("<a class='list-group-item list-group-item-action'>");
+
+            listEl.text(city);
+
+            $("#searchHistory").append(listEl);   
+        }
     }
 }
+
 
 // Function to build query URL
 function buildQueryURL() {
@@ -147,6 +152,7 @@ $("#searchButton").on("click", function(event) {
       }).then(updatePage);
 
     storeHistory();
-    renderHistory();  
+    renderHistory(); 
+    $("#citySearch").val(""); 
 })
 
