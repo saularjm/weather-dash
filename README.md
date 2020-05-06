@@ -50,6 +50,6 @@ has previously searched.
     - Each city in the search history is a button that, when clicked,
     will repopulate the page with that city's weather information.
 
-- Check out the deployed application here: 
+- Check out the deployed application here: https://saularjm.github.io/weather-dash/ 
 
 
