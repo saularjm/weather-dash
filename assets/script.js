@@ -19,6 +19,15 @@ $(document).ready(function() {
             $("#searchHistory").append(listEl);   
         }
     }
+
+    var prevName = cityHistory[cityHistory.length-1];
+
+    var prevQueryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + prevName + "&units=imperial&appid=ada09817b302edc8ce6573f5d8d86b58";
+
+    $.ajax({
+      url: prevQueryURL,
+      method: "GET"
+    }).then(updatePage);
 })
 
 // Function to store search history
