@@ -114,6 +114,18 @@ function updatePage(weatherData) {
       }).then(function(response) {
         var uvDiv = $("<div>");
         uvDiv.html("UV Index: " + response.value);
+
+        // Set warning color for UV index
+        if (response.value <= 3) {
+          uvDiv.addClass("favorable");
+        }
+        else if ((response.value > 3) && (response.value <= 6)) {
+          uvDiv.addClass("moderate");
+        }
+        else {
+          uvDiv.addClass("severe");
+        }
+        
         $("#weatherJumbo").append(uvDiv);
       })  
       
