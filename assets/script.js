@@ -125,7 +125,7 @@ function updatePage(weatherData) {
         else {
           uvDiv.addClass("severe");
         }
-        
+
         $("#weatherJumbo").append(uvDiv);
       })  
       
@@ -143,6 +143,7 @@ function updatePage(weatherData) {
             var dayDiv = $("<div>");
             dayDiv.css("display", "inline-block");
             dayDiv.addClass("mx-3 pb-5");
+            dayDiv.addClass("btn-primary");
 
             // Get date and append to dayDiv
             var date = moment().add(i, 'days');
