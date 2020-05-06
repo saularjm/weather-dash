@@ -1,5 +1,7 @@
+// Create array for storing search history
 var cityHistory = [];
 
+// Functions for on document load
 $(document).ready(function() {
   $("#searchHistory").empty();
 
@@ -10,6 +12,7 @@ $(document).ready(function() {
         
         cityHistory = history;
         
+        // Create search history list and populate page
         for (var i=0; i< cityHistory.length; i++) {
 
             var city = cityHistory[i];
@@ -21,10 +24,13 @@ $(document).ready(function() {
     }
 
     // Populate last city searched weather data on page load
+    // Get city name from localStorage
     var prevName = cityHistory[cityHistory.length-1];
 
+    // Build query URL
     var prevQueryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + prevName + "&units=imperial&appid=ada09817b302edc8ce6573f5d8d86b58";
 
+    // API call and update page
     $.ajax({
       url: prevQueryURL,
       method: "GET"
@@ -40,12 +46,15 @@ function storeHistory() {
 // Function to render search history
 function renderHistory() {
 
+    // Empty history list
     $("#searchHistory").empty();
 
+    // Retrieve history from localStorage
     var history = JSON.parse(localStorage.getItem("history"));
 
     if (history !== null) {
 
+        // Create search history list and populate page
         for (var i=0; i< cityHistory.length; i++) {
 
             var city = cityHistory[i];
@@ -60,8 +69,10 @@ function renderHistory() {
 // Function to build query URL
 function buildQueryURL() {
 
+    // Get city to search from user input
     var cityName = $("#citySearch").val().trim();
 
+    // Build query URL
     var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&units=imperial&appid=ada09817b302edc8ce6573f5d8d86b58";
 
     return queryURL;
@@ -76,7 +87,7 @@ function updatePage(weatherData) {
     // Set date
     var currentDay = moment().format("dddd, MMMM Do");
 
-    // Get weather conditions icon
+    // Get weather conditions icon and create HTML img element
     var iconCode = weatherData.weather[0].icon;
     var iconURL = "https://openweathermap.org/img/w/" + iconCode + ".png";
     var icon = $("<img>");
@@ -105,13 +116,15 @@ function updatePage(weatherData) {
     $("#weatherJumbo").append(windDiv);
     $("#weatherJumbo").append($("<br>"));
 
-    // Call UV Index API, create div, and append to jumbotron
+    // Call UV Index API using lat and lon
     var uvQueryURL = "https://api.openweathermap.org/data/2.5/uvi?appid=ada09817b302edc8ce6573f5d8d86b58&lat=" + weatherData.coord.lat + "&lon=" + weatherData.coord.lon;
 
     $.ajax({
         url: uvQueryURL,
         method: "GET"
       }).then(function(response) {
+
+        // Create div for UV index
         var uvDiv = $("<div>");
         uvDiv.html("UV Index: " + response.value);
 
@@ -126,10 +139,11 @@ function updatePage(weatherData) {
           uvDiv.addClass("severe");
         }
 
+        // append to jumbotron
         $("#weatherJumbo").append(uvDiv);
       })  
       
-    // Call forecast API, pull data, create HTML elements and append to fiveDay div
+    // Call five day forecast API, pull data, create HTML elements and append to fiveDay div
     var fiveDayURL = "https://api.openweathermap.org/data/2.5/onecall?lat=" + weatherData.coord.lat + "&lon=" + weatherData.coord.lon + "&exclude=current,hourly&units=imperial&appid=ada09817b302edc8ce6573f5d8d86b58";  
 
     $.ajax({
@@ -177,36 +191,44 @@ function updatePage(weatherData) {
       })
 }
 
-// Click handlers
+// Click handler for search button
 $("#searchButton").on("click", function(event) {
     event.preventDefault();
 
+    // Empty weather info divs
     $("#weatherJumbo").empty();
     $("#fiveDay").empty();
 
+    // Build query URL
     var queryURL = buildQueryURL();
 
+    // Call weather API and update page
     $.ajax({
         url: queryURL,
         method: "GET"
       }).then(updatePage);
 
+    // Store city in search history and update list
     storeHistory();
     renderHistory(); 
     $("#citySearch").val(""); 
 })
 
+// Click handler for search history elements
 $("#searchHistory").on("click", "button", function(event) {
   event.preventDefault();
   event.stopPropagation();
 
+  // Empty weather info divs
   $("#weatherJumbo").empty();
   $("#fiveDay").empty();
 
+  // Build query URL using city name from history link
   var historyName = $(this).text();
 
   var historyQueryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + historyName + "&units=imperial&appid=ada09817b302edc8ce6573f5d8d86b58";
 
+  // Call weather API and update page
   $.ajax({
     url: historyQueryURL,
     method: "GET"
