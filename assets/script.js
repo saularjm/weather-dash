@@ -78,7 +78,7 @@ function updatePage(weatherData) {
 
     // Get weather conditions icon
     var iconCode = weatherData.weather[0].icon;
-    var iconURL = "http://openweathermap.org/img/w/" + iconCode + ".png";
+    var iconURL = "https://openweathermap.org/img/w/" + iconCode + ".png";
     var icon = $("<img>");
     icon.attr("src", iconURL);
     
@@ -106,7 +106,7 @@ function updatePage(weatherData) {
     $("#weatherJumbo").append($("<br>"));
 
     // Call UV Index API, create div, and append to jumbotron
-    var uvQueryURL = "http://api.openweathermap.org/data/2.5/uvi?appid=ada09817b302edc8ce6573f5d8d86b58&lat=" + weatherData.coord.lat + "&lon=" + weatherData.coord.lon;
+    var uvQueryURL = "https://api.openweathermap.org/data/2.5/uvi?appid=ada09817b302edc8ce6573f5d8d86b58&lat=" + weatherData.coord.lat + "&lon=" + weatherData.coord.lon;
 
     $.ajax({
         url: uvQueryURL,
@@ -154,7 +154,7 @@ function updatePage(weatherData) {
 
             // Get icon and append to dayDiv
             var fiveDayIconCode = response.daily[i].weather[0].icon;
-            var fiveDayIconURL = "http://openweathermap.org/img/w/" + fiveDayIconCode + ".png";
+            var fiveDayIconURL = "https://openweathermap.org/img/w/" + fiveDayIconCode + ".png";
             var fiveDayIcon = $("<img>");
             fiveDayIcon.attr("src", fiveDayIconURL);
             dayDiv.append(fiveDayIcon);
