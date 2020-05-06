@@ -1,5 +1,26 @@
 var cityHistory = [];
 
+// Populate search history on page load
+$(document).ready(function() {
+  $("#searchHistory").empty();
+
+    var history = JSON.parse(localStorage.getItem("history"));
+
+    if (history !== null) {
+        
+        cityHistory = history;
+        
+        for (var i=0; i< cityHistory.length; i++) {
+
+            var city = cityHistory[i];
+            var listEl = $("<button class='list-group-item list-group-item-action'>");
+            listEl.text(city);
+
+            $("#searchHistory").append(listEl);   
+        }
+    }
+})
+
 // Function to store search history
 function storeHistory() {
     cityHistory.push($("#citySearch").val().trim())
@@ -20,15 +41,11 @@ function renderHistory() {
             var city = cityHistory[i];
             var listEl = $("<button class='list-group-item list-group-item-action'>");
             listEl.text(city);
-            // TODO: link search history items to their weather report and populate page
-            listEl.attr("val", city);
 
             $("#searchHistory").append(listEl);   
         }
     }
 }
-renderHistory();
-
 
 // Function to build query URL
 function buildQueryURL() {
@@ -155,19 +172,3 @@ $("#searchButton").on("click", function(event) {
     renderHistory(); 
     $("#citySearch").val(""); 
 })
-
-// $(".list-group-item").on("click", function(event) {
-//     event.preventDefault();
-
-//     $("#weatherJumbo").empty();
-//     $("#fiveDay").empty();
-
-//     var HistoryCityName = $(this).val();
-//     console.log(HistoryCityName);
-//     var Url = "https://api.openweathermap.org/data/2.5/weather?q=" + HistoryCityName + "&units=imperial&appid=ada09817b302edc8ce6573f5d8d86b58";
-
-//     $.ajax({
-//       url: Url,
-//       method: "GET"
-//     }).then(updatePage);
-// })
