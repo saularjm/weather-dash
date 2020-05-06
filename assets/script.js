@@ -1,9 +1,9 @@
 var cityHistory = [];
 
-// Populate search history on page load
 $(document).ready(function() {
   $("#searchHistory").empty();
 
+    // Populate search history on page load
     var history = JSON.parse(localStorage.getItem("history"));
 
     if (history !== null) {
@@ -20,6 +20,7 @@ $(document).ready(function() {
         }
     }
 
+    // Populate last city searched weather data on page load
     var prevName = cityHistory[cityHistory.length-1];
 
     var prevQueryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + prevName + "&units=imperial&appid=ada09817b302edc8ce6573f5d8d86b58";
