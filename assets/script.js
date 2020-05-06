@@ -182,3 +182,20 @@ $("#searchButton").on("click", function(event) {
     renderHistory(); 
     $("#citySearch").val(""); 
 })
+
+$("#searchHistory").on("click", "button", function(event) {
+  event.preventDefault();
+  event.stopPropagation();
+
+  $("#weatherJumbo").empty();
+  $("#fiveDay").empty();
+
+  var historyName = $(this).text();
+
+  var historyQueryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + historyName + "&units=imperial&appid=ada09817b302edc8ce6573f5d8d86b58";
+
+  $.ajax({
+    url: historyQueryURL,
+    method: "GET"
+  }).then(updatePage);
+})
